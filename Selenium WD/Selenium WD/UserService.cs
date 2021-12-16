@@ -22,10 +22,13 @@ namespace Selenium_WD
         private readonly By _emailInputButton = By.XPath("//input[@name='p_[EMail]']");
         private readonly By _passwordInputButton = By.XPath("//input[@name='p_[PW0]']");
         private readonly By _acceptRegistrationButton = By.XPath("//button[@id='gxg47snjfol']");
+        WebElement iframe = driver.FindElements(By.XPath(""))
 
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
         private const string _registrationPassword = "Password123";
+
+        public By computer { get return { By.XPath("//a[@class='cancel-click mainmenu-link']")} }
 
         public void Create()
         {
