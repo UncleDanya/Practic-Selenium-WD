@@ -22,5 +22,30 @@ namespace Selenium_WD
         private readonly By _emailInputButton = By.XPath("//input[@name='p_[EMail]']");
         private readonly By _passwordInputButton = By.XPath("//input[@name='p_[PW0]']");
         private readonly By _acceptRegistrationButton = By.XPath("//button[@id='gxg47snjfol']");
+
+        private const string _registrationName = "User1";
+        private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
+        private const string _registrationPassword = "Password123";
+
+        public void Create()
+        {
+            var signIn = driver.FindElement(_signInButton);
+            signIn.Click();
+
+            var registrationButton = driver.FindElement(_registrationButton);
+            registrationButton.Click();
+
+            var inputName = driver.FindElement(_nameInputButton);
+            inputName.SendKeys(_registrationName);
+
+            var emailInput = driver.FindElement(_emailInputButton);
+            emailInput.SendKeys(_registrationEmail);
+
+            var passwordInput = driver.FindElement(_passwordInputButton);
+            passwordInput.SendKeys(_registrationPassword);
+
+            var acceptRegistration = driver.FindElement(_acceptRegistrationButton);
+            acceptRegistration.Click();
+        }
     }
 }
