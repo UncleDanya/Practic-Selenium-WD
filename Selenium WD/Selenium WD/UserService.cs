@@ -10,10 +10,15 @@ namespace Selenium_WD
     internal class UserService
     {
          private IWebDriver driver;
-
         public UserService(IWebDriver driver)
         {
             this.driver = driver;
+        }
+
+        IJavaScriptExecutor executor;
+        public UserService (IJavaScriptExecutor executor)
+        {
+            this.executor = executor;
         }
 
         private readonly By _signInButton = By.XPath("//*[@id='mui_user_login_row']");
@@ -22,13 +27,15 @@ namespace Selenium_WD
         private readonly By _emailInputButton = By.XPath("//input[@name='p_[EMail]']");
         private readonly By _passwordInputButton = By.XPath("//input[@name='p_[PW0]']");
         private readonly By _acceptRegistrationButton = By.XPath("//button[@id='gxg47snjfol']");
-        WebElement iframe = driver.FindElements(By.XPath(""))
+        private readonly By _searchInputButton = By.XPath("//input[@id='ek-search']");
+        private readonly By _searchItemButton = By.XPath("//button[@name='search_but_']");
 
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
         private const string _registrationPassword = "Password123";
+        private const string _searchingItem = "iphone 13pro 256";
 
-        public By computer { get return { By.XPath("//a[@class='cancel-click mainmenu-link']")} }
+        /*public By Computer => By.XPath("//a[@class='cancel-click mainmenu-link']");*/
 
         public void Create()
         {
@@ -49,6 +56,14 @@ namespace Selenium_WD
 
             var acceptRegistration = driver.FindElement(_acceptRegistrationButton);
             acceptRegistration.Click();
+        }
+
+        public void Search()
+        {
+            var searchInput = driver.FindElement(_searchInputButton);
+            searchInput.SendKeys(_searchingItem);
+            var searchButton = driver.FindElement(_searchItemButton);
+            searchButton.Click();
         }
     }
 }
