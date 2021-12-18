@@ -48,13 +48,14 @@ namespace Selenium_WD
             Random user = new Random();
             String b = "qwertyuiopasdfghjklzxcvbnm";
             int lenght = 6;
-            String random = "" + "@gmail.com";
+            String random = "";
 
             for (int i = 0; i < lenght; i++)
             {
                 int a = user.Next(26);
                 random = random + b.ElementAt(a);
             }
+            random += "@gmail.com";
             Console.WriteLine(random);
         }
     }
