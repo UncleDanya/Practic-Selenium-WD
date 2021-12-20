@@ -6,6 +6,7 @@ namespace Selenium_WD
     public class Tests
     {
         private IWebDriver driver;
+        private UserService service;
 
         [SetUp]
 
@@ -14,14 +15,16 @@ namespace Selenium_WD
             driver = new OpenQA.Selenium.Chrome.ChromeDriver();
             driver.Navigate().GoToUrl("https://ek.ua/");
             driver.Manage().Window.Maximize();
+            service = new UserService(driver);
         }
 
         [Test]
         public void Test1()
         {
+            service.Create();
             Assert.Pass();
         }
-        
+
         [TearDown]
         public void Test2()
         {

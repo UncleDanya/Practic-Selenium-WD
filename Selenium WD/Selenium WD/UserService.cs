@@ -9,7 +9,7 @@ namespace Selenium_WD
 {
     internal class UserService
     {
-         private IWebDriver driver;
+        private IWebDriver driver;
         public UserService(IWebDriver driver)
         {
             this.driver = driver;
@@ -21,7 +21,14 @@ namespace Selenium_WD
             this.executor = executor;
         }
 
-        private readonly By _signInButton = By.XPath("//*[@id='mui_user_login_row']");
+        private UserService service;
+        public UserService(UserService service)
+        {
+            this.service = service;
+        }
+
+
+        private readonly By _signInButton = By.XPath("//span[@jtype='click']");
         private readonly By _registrationButton = By.XPath("//span[@class='j-wrap orange']");
         private readonly By _nameInputButton = By.XPath("//input[@name='p_[NikName]']");
         private readonly By _emailInputButton = By.XPath("//input[@name='p_[EMail]']");
@@ -35,7 +42,8 @@ namespace Selenium_WD
         private const string _registrationPassword = "Password123";
         private const string _searchingItem = "iphone 13pro 256";
 
-        /*public By Computer => By.XPath("//a[@class='cancel-click mainmenu-link']");*/
+        //public By Computer => By.XPath("//a[@class='cancel-click mainmenu-link']");
+        RandomUser rndUs = new RandomUser();
 
         public void Create()
         {
@@ -46,16 +54,16 @@ namespace Selenium_WD
             registrationButton.Click();
 
             var inputName = driver.FindElement(_nameInputButton);
-            inputName.SendKeys(_registrationName);
+            inputName.SendKeys(rndUs.CreateRandomLogin());
 
             var emailInput = driver.FindElement(_emailInputButton);
-            emailInput.SendKeys(_registrationEmail);
+            emailInput.SendKeys(rndUs.CreateRandomEmail());
 
             var passwordInput = driver.FindElement(_passwordInputButton);
-            passwordInput.SendKeys(_registrationPassword);
+            passwordInput.SendKeys(rndUs.CreateRandomPassword());
 
             var acceptRegistration = driver.FindElement(_acceptRegistrationButton);
-            acceptRegistration.Click();
+            //acceptRegistration.Click();
         }
 
         public void Search()

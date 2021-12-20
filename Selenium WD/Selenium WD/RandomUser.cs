@@ -8,7 +8,7 @@ namespace Selenium_WD
 {
     internal class RandomUser
     {
-        public void CreateRandomLogin()
+        public string CreateRandomLogin()
         {
             Random user = new Random();
             String b = "qwertyuiopasdfghjklzxcvbnm";
@@ -20,10 +20,10 @@ namespace Selenium_WD
                 int a = user.Next(26);
                 random = random + b.ElementAt(a);
             }
-            Console.WriteLine(random);
+            return random;
         }
-
-        public void CreateRandomPassword()
+        //private string Login => CreateRandomLogin();
+        public string CreateRandomPassword()
         {
             Random res = new Random();
 
@@ -39,11 +39,12 @@ namespace Selenium_WD
 
                 randomstring = randomstring + str[x];
             }
+            return randomstring;
 
             Console.WriteLine(randomstring);
         }
 
-        public void CreateRandomEmail()
+        public string CreateRandomEmail()
         {
             Random user = new Random();
             String b = "qwertyuiopasdfghjklzxcvbnm";
@@ -56,6 +57,7 @@ namespace Selenium_WD
                 random = random + b.ElementAt(a);
             }
             random += "@gmail.com";
+            return random;
             Console.WriteLine(random);
         }
     }
