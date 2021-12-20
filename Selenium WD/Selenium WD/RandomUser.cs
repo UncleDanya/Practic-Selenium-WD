@@ -22,7 +22,12 @@ namespace Selenium_WD
             }
             return random;
         }
-        //private string Login => CreateRandomLogin();
+/*        public string CreateRndLog
+        {
+            get { return CreateRandomLogin(); }
+            set { CreateRandomLogin(); }
+        }
+*/        //private string Login => CreateRandomLogin();
         public string CreateRandomPassword()
         {
             Random res = new Random();

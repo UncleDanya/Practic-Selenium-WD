@@ -1,8 +1,10 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Selenium_WD
@@ -33,14 +35,15 @@ namespace Selenium_WD
         private readonly By _nameInputButton = By.XPath("//input[@name='p_[NikName]']");
         private readonly By _emailInputButton = By.XPath("//input[@name='p_[EMail]']");
         private readonly By _passwordInputButton = By.XPath("//input[@name='p_[PW0]']");
-        private readonly By _acceptRegistrationButton = By.XPath("//button[@id='gxg47snjfol']");
+        private readonly By _acceptRegistrationButton = By.XPath("//button[text()='ЗАРЕГИСТРИРОВАТЬСЯ']");
         private readonly By _searchInputButton = By.XPath("//input[@id='ek-search']");
         private readonly By _searchItemButton = By.XPath("//button[@name='search_but_']");
+        private readonly By _acceptButton = By.XPath("//button[text()='Подтвердить']");
 
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
         private const string _registrationPassword = "Password123";
-        private const string _searchingItem = "iphone 13pro 256";
+        private const string _searchingItem = "iPhone 13 Pro 256";
 
         //public By Computer => By.XPath("//a[@class='cancel-click mainmenu-link']");
         RandomUser rndUs = new RandomUser();
@@ -63,7 +66,13 @@ namespace Selenium_WD
             passwordInput.SendKeys(rndUs.CreateRandomPassword());
 
             var acceptRegistration = driver.FindElement(_acceptRegistrationButton);
-            //acceptRegistration.Click();
+            acceptRegistration.Click();
+
+            //WebDriverWait driverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            Thread.Sleep(1000);
+
+            var acceptButton = driver.FindElement(_acceptButton);
+            acceptButton.Click();
         }
 
         public void Search()

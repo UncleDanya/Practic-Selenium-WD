@@ -7,6 +7,8 @@ namespace Selenium_WD
     {
         private IWebDriver driver;
         private UserService service;
+        private readonly By _acceptLogin = By.XPath("//a[@class='info-nick']");
+
 
         [SetUp]
 
@@ -22,13 +24,18 @@ namespace Selenium_WD
         public void Test1()
         {
             service.Create();
+            var actualLogin = driver.FindElement(_acceptLogin).Text;
+            RandomUser randomUser = new RandomUser();
+            Assert.AreEqual(randomUser.CreateRandomLogin(), actualLogin, "Login is wrong");
+
             Assert.Pass();
         }
 
         [TearDown]
         public void Test2()
         {
-
+            driver.Quit();
+            driver.Dispose();
         }
     }
 }
