@@ -33,43 +33,34 @@ namespace Selenium_WD
         public void Test1()
         {
             service.EnterComputer();
-            //var allacer = driver.FindElements(By.XPath("//a/span[text()[contains(.,'Acer')]]"));
-            var nextPageButton = driver.FindElement(By.XPath("//a[@id='pager_next']"));
-            do
+            var lastPage = driver.FindElements(By.XPath(".//div[@class='ib page-num']//a")).Last();
+            var neededElementText = Int32.Parse(lastPage.Text);
+            for (int i = 0; i < neededElementText; i++)
             {
                 var allacer = driver.FindElements(By.XPath("//a/span[text()[contains(.,'Acer')]]"));
                 foreach (var oneItemAcer in allacer)
                 {
-                    /*try
-                    {
-                        allacer = driver.FindElements(By.XPath("//a/span[text()[contains(.,'Acer')]]"));
-                    }
-                    catch (Exception ex)
-                    {
-                        Assert.Fail(ex.Message);
-                    }*/
                     var oneItem = oneItemAcer.Text;
                     Assert.IsTrue(oneItem.Contains("Acer"), "Not found");
-                    if (nextPageButton.Displayed)
-                    {
-                        nextPageButton.Click();
-                        Thread.Sleep(2000);
-                        
-                    }
-                    else
-                    {
-                        break;
-                    }
+                }
+                try
+                {
+                    var nextPageButton = driver.FindElement(By.XPath("//a[@id='pager_next']"));
+                    nextPageButton.Click();
+                }
+                catch
+                {
+                    continue;
                 }
             }
-            while (nextPageButton.Displayed);
         }
 
         [TearDown]
         public void Test2()
         {
-            //driver.Quit();
-            //driver.Dispose();
+            driver.Quit();
+            driver.Dispose();
         }
+
     }
 }

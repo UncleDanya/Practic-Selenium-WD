@@ -30,11 +30,11 @@ namespace Selenium_WD
             this.service = service;
         }
 
-        private Actions action;
+        /*private Actions action;
         public UserService(Actions action)
         {
             this.action = action;
-        }
+        }*/
 
         private readonly By _signInButton = By.XPath("//span[@jtype='click']");
         private readonly By _registrationButton = By.XPath("//span[@class='j-wrap orange']");
@@ -45,11 +45,12 @@ namespace Selenium_WD
         private readonly By _searchInputButton = By.XPath("//input[@id='ek-search']");
         private readonly By _searchItemButton = By.XPath("//button[@name='search_but_']");
         private readonly By _acceptButton = By.XPath("//button[text()='Подтвердить']");
-        private readonly By _computerPage = By.XPath("//a[@href='/k169.htm']");
+        private readonly By _computerPage = By.XPath("//a[text()='Компьютеры']");
         private readonly By _dropComputer = By.XPath("//a[@class='mainmenu-subitem mainmenu-icon298']");
         private readonly By _brandLaptop = By.XPath("//label[@for='br189']");
         private readonly By _showFilter = By.XPath("//a[text()='Показать']");
         private readonly By _nextPageButton = By.XPath("//a[@id='pager_next']");
+        private readonly By _computerDropButton = By.XPath("//a[@class='cancel-click mainmenu-link']");
 
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
@@ -98,8 +99,8 @@ namespace Selenium_WD
         {
             Actions action = new Actions(driver);
             var enterComputer = driver.FindElement(_computerPage);
-            enterComputer.Click();
-            //action.MoveToElement(enterComputer).ClickAndHold();
+            //enterComputer.Click();
+            action.MoveToElement(enterComputer).Perform();
             Thread.Sleep(3000);
 
             var dropComputer = driver.FindElement(_dropComputer);
@@ -111,6 +112,13 @@ namespace Selenium_WD
 
             var showFilter = driver.FindElement(_showFilter);
             showFilter.Click();
+        }
+
+        public void AddTablet()
+        {
+            Actions action = new Actions(driver);
+            var computerDrop = driver.FindElement(_computerDropButton);
+            action.MoveToElement(computerDrop).ClickAndHold();
         }
     }
 }
