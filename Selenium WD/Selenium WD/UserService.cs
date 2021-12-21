@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,11 @@ namespace Selenium_WD
             this.service = service;
         }
 
+        private Actions action;
+        public UserService(Actions action)
+        {
+            this.action = action;
+        }
 
         private readonly By _signInButton = By.XPath("//span[@jtype='click']");
         private readonly By _registrationButton = By.XPath("//span[@class='j-wrap orange']");
@@ -39,6 +45,11 @@ namespace Selenium_WD
         private readonly By _searchInputButton = By.XPath("//input[@id='ek-search']");
         private readonly By _searchItemButton = By.XPath("//button[@name='search_but_']");
         private readonly By _acceptButton = By.XPath("//button[text()='Подтвердить']");
+        private readonly By _computerPage = By.XPath("//a[@href='/k169.htm']");
+        private readonly By _dropComputer = By.XPath("//a[@class='mainmenu-subitem mainmenu-icon298']");
+        private readonly By _brandLaptop = By.XPath("//label[@for='br189']");
+        private readonly By _showFilter = By.XPath("//a[text()='Показать']");
+        private readonly By _nextPageButton = By.XPath("//a[@id='pager_next']");
 
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
@@ -81,6 +92,25 @@ namespace Selenium_WD
             searchInput.SendKeys(_searchingItem);
             var searchButton = driver.FindElement(_searchItemButton);
             searchButton.Click();
+        }
+
+        public void EnterComputer()
+        {
+            Actions action = new Actions(driver);
+            var enterComputer = driver.FindElement(_computerPage);
+            enterComputer.Click();
+            //action.MoveToElement(enterComputer).ClickAndHold();
+            Thread.Sleep(3000);
+
+            var dropComputer = driver.FindElement(_dropComputer);
+            dropComputer.Click();
+
+            var filterBrands = driver.FindElement(_brandLaptop);
+            filterBrands.Click();
+            Thread.Sleep(2000);
+
+            var showFilter = driver.FindElement(_showFilter);
+            showFilter.Click();
         }
     }
 }
