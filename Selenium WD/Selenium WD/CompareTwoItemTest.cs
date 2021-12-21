@@ -33,6 +33,10 @@ namespace Selenium_WD
         public void Test1()
         {
             service.AddTablet();
+            //service.AddCompareFirstTablet();
+            Thread.Sleep(1000);
+            //service.AddCompareSecondTablet();
+            service.CompareTest();
         }
 
         [TearDown]

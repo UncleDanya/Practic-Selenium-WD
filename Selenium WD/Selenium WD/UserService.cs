@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -50,7 +51,16 @@ namespace Selenium_WD
         private readonly By _brandLaptop = By.XPath("//label[@for='br189']");
         private readonly By _showFilter = By.XPath("//a[text()='Показать']");
         private readonly By _nextPageButton = By.XPath("//a[@id='pager_next']");
-        private readonly By _computerDropButton = By.XPath("//a[@class='cancel-click mainmenu-link']");
+        private readonly By _computerDropButton = By.XPath("//a[text()='Компьютеры']");
+        private readonly By _tabletPage = By.XPath("//a[@class='mainmenu-subitem mainmenu-icon30']");
+        private readonly By _tabletBrand = By.XPath("//label[@for='br116']");
+        private readonly By _addFirstCompareTablet = By.XPath("//span[text()='Apple iPad 2021']");
+        private readonly By _goToTabletPage = By.XPath("//a[@link='/list/30/apple/']");
+        private readonly By _addSecondCompareTablet = By.XPath("//span[text()='Apple iPad Air 2020']");
+        private readonly By _toSecondCompareTablet = By.XPath("//label[@id='label_1870142']");
+        private readonly By _compareButton = By.XPath("//span[@id='num_bm_compared']");
+        private readonly By _firstExpectedItem = By.XPath("//table[@id='compare_table']//child::a[contains(text(),'Apple iPad Air')]");
+        private readonly By _secondExpectedItem = By.XPath("//*[@id='compare_table']/thead/tr[3]/th[2]/a");
 
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
@@ -58,6 +68,7 @@ namespace Selenium_WD
         private const string _searchingItem = "iPhone 13 Pro 256";
 
         //public By Computer => By.XPath("//a[@class='cancel-click mainmenu-link']");
+        public By ToCompareTablet => By.XPath("//label[@id='label_2090044']");
         RandomUser rndUs = new RandomUser();
 
         public void Create()
@@ -80,7 +91,6 @@ namespace Selenium_WD
             var acceptRegistration = driver.FindElement(_acceptRegistrationButton);
             acceptRegistration.Click();
 
-            //WebDriverWait driverWait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             Thread.Sleep(1000);
 
             var acceptButton = driver.FindElement(_acceptButton);
@@ -99,7 +109,6 @@ namespace Selenium_WD
         {
             Actions action = new Actions(driver);
             var enterComputer = driver.FindElement(_computerPage);
-            //enterComputer.Click();
             action.MoveToElement(enterComputer).Perform();
             Thread.Sleep(3000);
 
@@ -118,7 +127,66 @@ namespace Selenium_WD
         {
             Actions action = new Actions(driver);
             var computerDrop = driver.FindElement(_computerDropButton);
-            action.MoveToElement(computerDrop).ClickAndHold();
+            action.MoveToElement(computerDrop).Perform();
+            Thread.Sleep(2000);
+            var tabletPage = driver.FindElement(_tabletPage);
+            tabletPage.Click();
+            var tabletBrand = driver.FindElement(_tabletBrand);
+            tabletBrand.Click();
+            Thread.Sleep(1000);
+            var showFilterTabler = driver.FindElement(_showFilter);
+            showFilterTabler.Click();
+        }
+
+        /*public void AddCompareFirstTablet()
+        {
+            var firstCompareTablet = driver.FindElement(_addFirstCompareTablet);
+            firstCompareTablet.Click();
+            driver.FindElement(ToCompareTablet).Click();
+        }
+
+        public void AddCompareSecondTablet()
+        {
+            var backTabletPage = driver.FindElement(_goToTabletPage);
+            backTabletPage.Click();
+            var secondCompareTablet = driver.FindElement(_addSecondCompareTablet);
+            secondCompareTablet.Click();
+            var toSecondCompTablet = driver.FindElement(_toSecondCompareTablet);
+            toSecondCompTablet.Click();
+            Thread.Sleep(1000);
+        }
+
+        public void CompareItem()
+        {
+            var compButton = driver.FindElement(_compareButton);
+            compButton.Click();
+            var getFirstTablet = 
+        }*/
+
+        public void CompareTest()
+        {
+            var firstCompareTablet = driver.FindElement(_addFirstCompareTablet);
+            var oneTabler = driver.FindElement(_addFirstCompareTablet).Text;
+            firstCompareTablet.Click();
+            driver.FindElement(ToCompareTablet).Click();
+
+            var backTabletPage = driver.FindElement(_goToTabletPage);
+            backTabletPage.Click();
+            var secondCompareTablet = driver.FindElement(_addSecondCompareTablet);
+            var twoTablet = driver.FindElement(_addSecondCompareTablet).Text;
+            secondCompareTablet.Click();
+            var toSecondCompTablet = driver.FindElement(_toSecondCompareTablet);
+            toSecondCompTablet.Click();
+            Thread.Sleep(1000);
+
+            var compButton = driver.FindElement(_compareButton);
+            compButton.Click();
+            Thread.Sleep(3000);
+            var getFirstTablet = driver.FindElement(_firstExpectedItem).Text;
+            var getSecondTablet = driver.FindElement(_secondExpectedItem).Text;
+            Assert.AreEqual(getFirstTablet, oneTabler, "Wrong!");
+            Assert.AreEqual(getSecondTablet, twoTablet, "Wrong 2!");
+
         }
     }
 }
