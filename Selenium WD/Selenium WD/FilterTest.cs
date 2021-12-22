@@ -61,6 +61,5 @@ namespace Selenium_WD
             driver.Quit();
             driver.Dispose();
         }
-
     }
 }

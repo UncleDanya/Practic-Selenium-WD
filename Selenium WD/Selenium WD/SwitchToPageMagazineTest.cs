@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Selenium_WD
 {
-    internal class CompareTwoItemTest
+    internal class SwitchToPageMagazineTest
     {
         private IWebDriver driver;
         private UserService service;
@@ -32,11 +32,7 @@ namespace Selenium_WD
         [Test]
         public void Test1()
         {
-            service.AddTablet();
-            //service.AddCompareFirstTablet();
-            Thread.Sleep(1000);
-            //service.AddCompareSecondTablet();
-            service.CompareTest();
+            service.SwitchToPage();
         }
 
         [TearDown]

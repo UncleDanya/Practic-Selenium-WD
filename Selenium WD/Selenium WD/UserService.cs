@@ -14,18 +14,21 @@ namespace Selenium_WD
     internal class UserService
     {
         private IWebDriver driver;
+        
         public UserService(IWebDriver driver)
         {
             this.driver = driver;
         }
 
         IJavaScriptExecutor executor;
-        public UserService (IJavaScriptExecutor executor)
+        
+        public UserService(IJavaScriptExecutor executor)
         {
             this.executor = executor;
         }
 
         private UserService service;
+        
         public UserService(UserService service)
         {
             this.service = service;
@@ -61,7 +64,15 @@ namespace Selenium_WD
         private readonly By _compareButton = By.XPath("//span[@id='num_bm_compared']");
         private readonly By _firstExpectedItem = By.XPath("//table[@id='compare_table']//child::a[contains(text(),'Apple iPad 2021')]");
         private readonly By _secondExpectedItem = By.XPath("//table[@id='compare_table']//child::a[contains(text(),'Apple iPad Air')]");
-
+        private readonly By _gadjetItemButton = By.XPath("//a[text()='Гаджеты']");
+        private readonly By _gadjetDropButton = By.XPath("//a[@href='/k122.htm' and @class='mainmenu-subitem mainmenu-icon122']");
+        private readonly By _moBileBrandFilterButton = By.XPath("//label[@class='brand-best' and @for='br116']");
+        private readonly By _appleMobileItem = By.XPath("//a//span[@class='u' and text()='Apple iPhone 13']");
+        private readonly By _mobilePageItem = By.XPath("//tr[@class='shop-97974']//a[@class='yel-but-2']");
+        private readonly By _appleTitleText = By.XPath("//tr[@class='shop-97974']//td//h3[text()=' Смартфон Apple iPhone 13 128Gb Midnight']");
+        private readonly By _pageVodaItem = By.XPath("//span[@class='base' and text()='Смартфон Apple iPhone 13 128Gb Midnight']");
+        private readonly By _nameMagazine = By.XPath("//a[text()='Vodafone.ua']");
+        
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
         private const string _registrationPassword = "Password123";
@@ -172,25 +183,77 @@ namespace Selenium_WD
 
             var backTabletPage = driver.FindElement(_goToTabletPage);
             backTabletPage.Click();
+
             var secondCompareTablet = driver.FindElement(_addSecondCompareTablet);
             var twoTablet = driver.FindElement(_addSecondCompareTablet).Text;
             secondCompareTablet.Click();
+
             var toSecondCompTablet = driver.FindElement(_toSecondCompareTablet);
             toSecondCompTablet.Click();
+
             Thread.Sleep(1000);
 
             var compButton = driver.FindElement(_compareButton);
             compButton.Click();
+
             Thread.Sleep(5000);
+
             var a = driver.WindowHandles;
+
             driver.SwitchTo().Window(a[1]);
+
             var getFirstTablet = driver.FindElement(_firstExpectedItem).Text;
             var getSecondTablet = driver.FindElement(_secondExpectedItem).Text;
-            //Assert.AreEqual(getFirstTablet, oneTabler, "Wrong!");
-            //Assert.AreEqual(getSecondTablet, twoTablet, "Wrong 2!");
+
+            // Assert.AreEqual(getFirstTablet, oneTabler, "Wrong!");
+            // Assert.AreEqual(getSecondTablet, twoTablet, "Wrong 2!");
             Assert.IsTrue(getFirstTablet.Contains(oneTabler), "Wronh!!");
             Assert.IsTrue(getSecondTablet.Contains(twoTablet), "Wronh2!!");
+        }
 
+        public void SwitchToPage()
+        {
+            Actions actions = new Actions(driver);
+            
+            var gadjetItem = driver.FindElement(_gadjetItemButton);
+            actions.MoveToElement(gadjetItem).Perform();
+
+            Thread.Sleep(1000);
+
+            var gadjetDropBut = driver.FindElement(_gadjetDropButton);
+            gadjetDropBut.Click();
+
+            var filterMobileBrand = driver.FindElement(_moBileBrandFilterButton);
+            filterMobileBrand.Click();
+
+            Thread.Sleep(1000);
+
+            var showFilter = driver.FindElement(_showFilter);
+            showFilter.Click();
+
+            var appleMobItem = driver.FindElement(_appleMobileItem);
+            appleMobItem.Click();
+
+            Thread.Sleep(2000);
+
+            var linkToMagazine = driver.FindElement(_mobilePageItem);
+            actions.MoveToElement(linkToMagazine);
+
+            var nameMagaz = driver.FindElement(_nameMagazine).Text;
+
+            var textItem = driver.FindElement(_appleTitleText).Text;
+
+            linkToMagazine.Click();
+
+            var a = driver.WindowHandles;
+            driver.SwitchTo().Window(a[1]);
+
+            var pageWithItem = driver.FindElement(_pageVodaItem).Text;
+
+            // var nameTitle = driver.Title;
+
+            Assert.AreEqual(textItem, pageWithItem, "Wrong!!");
+            // Assert.IsTrue(nameTitle(nameMagaz), "Wrong title");
         }
     }
 }
