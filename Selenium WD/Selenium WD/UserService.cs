@@ -72,6 +72,10 @@ namespace Selenium_WD
         private readonly By _appleTitleText = By.XPath("//tr[@class='shop-97974']//td//h3[text()=' Смартфон Apple iPhone 13 128Gb Midnight']");
         private readonly By _pageVodaItem = By.XPath("//span[@class='base' and text()='Смартфон Apple iPhone 13 128Gb Midnight']");
         private readonly By _nameMagazine = By.XPath("//a[text()='Vodafone.ua']");
+        private readonly By _priceAllItem = By.XPath("//b[text()]//parent::a");
+        private readonly By _proItemApple = By.XPath("//span[text()='Apple iPhone 13 Pro']");
+        private readonly By _showAllPriceButton = By.XPath("//u[text()='Cравнить цены']");
+        private readonly By _sortPriceOnPageButton = By.XPath("//a[@class='sort-arr-down']");
         
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
@@ -254,6 +258,43 @@ namespace Selenium_WD
 
             Assert.AreEqual(textItem, pageWithItem, "Wrong!!");
             // Assert.IsTrue(nameTitle(nameMagaz), "Wrong title");
+        }
+
+        public void PriceFilter()
+        {
+            Actions actions = new Actions(driver);
+
+            var gadjetItem = driver.FindElement(_gadjetItemButton);
+            actions.MoveToElement(gadjetItem).Perform();
+
+            Thread.Sleep(1000);
+
+            var gadjetDropButton = driver.FindElement(_gadjetDropButton);
+            gadjetDropButton.Click();
+
+            var filterMobileBrand = driver.FindElement(_moBileBrandFilterButton);
+            filterMobileBrand.Click();
+
+            Thread.Sleep(1000);
+
+            var showFilter = driver.FindElement(_showFilter);
+            showFilter.Click();
+
+            Thread.Sleep(2000);
+
+            var itemPro = driver.FindElement(_proItemApple);
+            actions.MoveToElement(itemPro).Perform();
+            itemPro.Click();
+
+            var showAllPr = driver.FindElement(_showAllPriceButton);
+            showAllPr.Click();
+
+            Thread.Sleep(2000);
+
+            var sortPrice = driver.FindElement(_sortPriceOnPageButton);
+            sortPrice.Click();
+
+            // var listAllPrice = driver.FindElements(_priceAllItem);
         }
     }
 }
