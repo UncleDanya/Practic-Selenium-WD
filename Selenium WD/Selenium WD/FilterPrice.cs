@@ -38,10 +38,16 @@ namespace Selenium_WD
             for (int i = 0; i < neededElementText; i++)
             {
                 var allPrice = driver.FindElements(By.XPath("//b[text()]//parent::a"));
+
                 foreach (var onePrice in allPrice)
                 {
-                    var oneIntPrice = Int32.Parse(onePrice.Text);
-
+                    var pric = onePrice.Text.Replace(" грн.", "");
+                    var price = pric.Replace(" ", "");
+                    var priceInt = Convert.ToInt32(price);
+                    for (int j = 0; j < priceInt; j++)
+                    {
+                        _ = priceInt <= priceInt - 1;
+                    }
                     // Assert.IsTrue(oneItem.Contains("Acer"), "Not found");
                 }
                 try
@@ -61,8 +67,8 @@ namespace Selenium_WD
         [TearDown]
         public void Test2()
         {
-            // driver.Quit();
-            // driver.Dispose();
+            driver.Quit();
+            driver.Dispose();
         }
 
     }

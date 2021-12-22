@@ -75,7 +75,7 @@ namespace Selenium_WD
         private readonly By _priceAllItem = By.XPath("//b[text()]//parent::a");
         private readonly By _proItemApple = By.XPath("//span[text()='Apple iPhone 13 Pro']");
         private readonly By _showAllPriceButton = By.XPath("//u[text()='Cравнить цены']");
-        private readonly By _sortPriceOnPageButton = By.XPath("//a[@class='sort-arr-down']");
+        private readonly By _sortPriceOnPageButton = By.XPath("//a[@jtype='click' and text()='по цене']");
         
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
@@ -283,7 +283,7 @@ namespace Selenium_WD
             Thread.Sleep(2000);
 
             var itemPro = driver.FindElement(_proItemApple);
-            actions.MoveToElement(itemPro).Perform();
+            // actions.MoveToElement(itemPro).Perform();
             itemPro.Click();
 
             var showAllPr = driver.FindElement(_showAllPriceButton);
@@ -293,6 +293,8 @@ namespace Selenium_WD
 
             var sortPrice = driver.FindElement(_sortPriceOnPageButton);
             sortPrice.Click();
+
+            Thread.Sleep(2000);
 
             // var listAllPrice = driver.FindElements(_priceAllItem);
         }
