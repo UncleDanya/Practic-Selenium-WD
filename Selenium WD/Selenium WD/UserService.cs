@@ -59,8 +59,8 @@ namespace Selenium_WD
         private readonly By _addSecondCompareTablet = By.XPath("//span[text()='Apple iPad Air 2020']");
         private readonly By _toSecondCompareTablet = By.XPath("//label[@id='label_1870142']");
         private readonly By _compareButton = By.XPath("//span[@id='num_bm_compared']");
-        private readonly By _firstExpectedItem = By.XPath("//table[@id='compare_table']//child::a[contains(text(),'Apple iPad Air')]");
-        private readonly By _secondExpectedItem = By.XPath("//*[@id='compare_table']/thead/tr[3]/th[2]/a");
+        private readonly By _firstExpectedItem = By.XPath("//table[@id='compare_table']//child::a[contains(text(),'Apple iPad 2021')]");
+        private readonly By _secondExpectedItem = By.XPath("//table[@id='compare_table']//child::a[contains(text(),'Apple iPad Air')]");
 
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
@@ -181,11 +181,15 @@ namespace Selenium_WD
 
             var compButton = driver.FindElement(_compareButton);
             compButton.Click();
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
+            var a = driver.WindowHandles;
+            driver.SwitchTo().Window(a[1]);
             var getFirstTablet = driver.FindElement(_firstExpectedItem).Text;
             var getSecondTablet = driver.FindElement(_secondExpectedItem).Text;
-            Assert.AreEqual(getFirstTablet, oneTabler, "Wrong!");
-            Assert.AreEqual(getSecondTablet, twoTablet, "Wrong 2!");
+            //Assert.AreEqual(getFirstTablet, oneTabler, "Wrong!");
+            //Assert.AreEqual(getSecondTablet, twoTablet, "Wrong 2!");
+            Assert.IsTrue(getFirstTablet.Contains(oneTabler), "Wronh!!");
+            Assert.IsTrue(getSecondTablet.Contains(twoTablet), "Wronh2!!");
 
         }
     }
