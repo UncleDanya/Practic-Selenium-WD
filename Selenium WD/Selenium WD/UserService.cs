@@ -76,6 +76,8 @@ namespace Selenium_WD
         private readonly By _proItemApple = By.XPath("//span[text()='Apple iPhone 13 Pro']");
         private readonly By _showAllPriceButton = By.XPath("//u[text()='Cравнить цены']");
         private readonly By _sortPriceOnPageButton = By.XPath("//a[@jtype='click' and text()='по цене']");
+        private readonly By _addToBookmarksButton = By.XPath("//span[@title='Добавить в список']");
+        private readonly By _bookmarksButton = By.XPath("//li[@id='bar_bm_marked' and @class='goods-bar-section']");
         
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
@@ -297,6 +299,53 @@ namespace Selenium_WD
             Thread.Sleep(2000);
 
             // var listAllPrice = driver.FindElements(_priceAllItem);
+        }
+
+        public void AddToBookmarks()
+        {
+            Actions actions = new Actions(driver);
+
+            var gadjetMenu = driver.FindElement(_gadjetItemButton);
+            actions.MoveToElement(gadjetMenu).Perform();
+
+            Thread.Sleep(1000);
+
+            var mobileMenu = driver.FindElement(_gadjetDropButton);
+            mobileMenu.Click();
+
+            var filterMobileBrand = driver.FindElement(_moBileBrandFilterButton);
+            filterMobileBrand.Click();
+
+            Thread.Sleep(1000);
+
+            var showFilter = driver.FindElement(_showFilter);
+            showFilter.Click();
+
+            var appleMobItem = driver.FindElement(_appleMobileItem);
+            appleMobItem.Click();
+
+            var nameTitleItem = driver.FindElement(By.XPath("//h1[@class='t2 no-mobile' and text()='Мобильный телефон Apple iPhone 13 ']")).Text;
+
+            Thread.Sleep(2000);
+
+            var addToBookmarks = driver.FindElement(_addToBookmarksButton);
+            addToBookmarks.Click();
+
+            Thread.Sleep(1000);
+
+            var bookMarksBut = driver.FindElement(_addToBookmarksButton);
+            bookMarksBut.Click();
+
+            Thread.Sleep(1000);
+
+            var bookmarksBut = driver.FindElement(_bookmarksButton);
+            bookmarksBut.Click();
+
+            Thread.Sleep(2000);
+
+            var textItemInBookmarks = driver.FindElement(By.XPath("//div[@class='side-list-label ' and text()='Apple iPhone 13 128GB']")).Text;
+
+            Assert.IsTrue(nameTitleItem.Contains(textItemInBookmarks), "Wrong");
         }
     }
 }

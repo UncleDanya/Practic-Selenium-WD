@@ -48,6 +48,7 @@ namespace Selenium_WD
                     {
                         _ = priceInt <= priceInt - 1;
                     }
+                    
                     // Assert.IsTrue(oneItem.Contains("Acer"), "Not found");
                 }
                 try
