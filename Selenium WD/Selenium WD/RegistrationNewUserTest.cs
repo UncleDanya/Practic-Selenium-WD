@@ -34,8 +34,8 @@ namespace Selenium_WD
         [TearDown]
         public void Test2()
         {
-            driver.Quit();
-            driver.Dispose();
+            // driver.Quit();
+            // driver.Dispose();
         }
     }
 }

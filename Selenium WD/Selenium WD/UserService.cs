@@ -78,7 +78,12 @@ namespace Selenium_WD
         private readonly By _sortPriceOnPageButton = By.XPath("//a[@jtype='click' and text()='по цене']");
         private readonly By _addToBookmarksButton = By.XPath("//span[@title='Добавить в список']");
         private readonly By _bookmarksButton = By.XPath("//li[@id='bar_bm_marked' and @class='goods-bar-section']");
-        
+        private readonly By _acceptLogin = By.XPath("//a[@class='info-nick']");
+        private readonly By _editProfileButton = By.XPath("//a[@class='user-menu__edit' and @title='Редактировать']");
+        private readonly By _nikUserField = By.XPath("//input[@class='ek-form-control' and @name='p_[NikName]']");
+        private readonly By _saveChangeUserMenu = By.XPath("//button[@class='ek-form-btn blue' and text()='СОХРАНИТЬ']");
+        private readonly By _mainPageButton = By.XPath("//a[@title='E-Katalog']");
+
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
         private const string _registrationPassword = "Password123";
@@ -346,6 +351,31 @@ namespace Selenium_WD
             var textItemInBookmarks = driver.FindElement(By.XPath("//div[@class='side-list-label ' and text()='Apple iPhone 13 128GB']")).Text;
 
             Assert.IsTrue(nameTitleItem.Contains(textItemInBookmarks), "Wrong");
+        }
+
+        public void RenameUser()
+        {
+            Actions actions = new Actions(driver);
+
+            var loginMenu = driver.FindElement(_acceptLogin);
+            loginMenu.Click();
+
+            var editProfileButton = driver.FindElement(_editProfileButton);
+            editProfileButton.Click();
+
+            var userField = driver.FindElement(_nikUserField);
+            actions.DoubleClick(userField);
+            userField.SendKeys(rndUs.CreateRandomLogin());
+
+            var saveChange = driver.FindElement(_saveChangeUserMenu);
+            saveChange.Click();
+
+            var mainPage = driver.FindElement(_mainPageButton);
+            mainPage.Click();
+
+            _ = loginMenu.Text;
+
+            Assert.AreEqual(loginMenu.Text, rndUs.CreateRandomLogin());
         }
     }
 }
