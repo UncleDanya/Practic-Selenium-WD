@@ -4,11 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Selenium_WD
 {
-    internal class RenameUserTest
+    internal class SaveItemListTest
     {
         private IWebDriver driver;
         private UserService service;
@@ -29,7 +30,10 @@ namespace Selenium_WD
         public void Test1()
         {
             service.Create();
-            service.RenameUser();
+
+            Thread.Sleep(2000);
+
+            service.ItemList();
         }
 
         [TearDown]

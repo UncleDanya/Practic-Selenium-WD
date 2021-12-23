@@ -83,7 +83,18 @@ namespace Selenium_WD
         private readonly By _nikUserField = By.XPath("//input[@class='ek-form-control' and @name='p_[NikName]']");
         private readonly By _saveChangeUserMenu = By.XPath("//button[@class='ek-form-btn blue' and text()='СОХРАНИТЬ']");
         private readonly By _mainPageButton = By.XPath("//a[@title='E-Katalog']");
-
+        private readonly By _audioPageButton = By.XPath("//a[@href='/k10.htm' and text()='Аудио']");
+        private readonly By _audioPageDropButton = By.XPath("//li[@class='mainmenu-item']//a[text()='Аудио']//following-sibling::div//a[@href='/k239.htm']");
+        private readonly By _audioBrandFilter = By.XPath("//label[@for='br124']");
+        private readonly By _saveListButton = By.XPath("//span[text()='Сохранить список']");
+        private readonly By _acceptSaveListButton = By.XPath("//button[@type='submit']");
+        private readonly By _showSaveList = By.XPath("//a[@class='user-menu__section wu_bookmarks ']");
+        private readonly By _nameBrandSaveList = By.XPath("//span[@class='u' and text()]");
+        private readonly By _consoleDropButton = By.XPath("//li[@class='mainmenu-item']//a[text()='Компьютеры']//following-sibling::div//a[@href='/k33.htm']");
+        private readonly By _filterOnConsolePage = By.XPath("//label[@class='brand-best' and @for='br156']");
+        private readonly By _nameConsoleItem = By.XPath("//span[@class='u' and text()='Sony PlayStation 5']");
+        private readonly By _nameAudioItem = By.XPath("//span[@class='u' and text()='Logitech G Pro X']");
+        
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
         private const string _registrationPassword = "Password123";
@@ -97,6 +108,8 @@ namespace Selenium_WD
         {
             var signIn = driver.FindElement(_signInButton);
             signIn.Click();
+
+            Thread.Sleep(2000);
 
             var registrationButton = driver.FindElement(_registrationButton);
             registrationButton.Click();
@@ -113,7 +126,7 @@ namespace Selenium_WD
             var acceptRegistration = driver.FindElement(_acceptRegistrationButton);
             acceptRegistration.Click();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
 
             var acceptButton = driver.FindElement(_acceptButton);
             acceptButton.Click();
@@ -373,9 +386,150 @@ namespace Selenium_WD
             var mainPage = driver.FindElement(_mainPageButton);
             mainPage.Click();
 
-            _ = loginMenu.Text;
+            Thread.Sleep(4000);
+
+            // _ = loginMenu.Text;
 
             Assert.AreEqual(loginMenu.Text, rndUs.CreateRandomLogin());
+        }
+
+        public void ItemList()
+        {
+            //span[@class='u' and text()]
+            //span[@class='u' and text()]
+            Actions actions = new Actions(driver);
+
+            var audioPage = driver.FindElement(_audioPageButton);
+            actions.MoveToElement(audioPage).Perform();
+
+            Thread.Sleep(1000);
+
+            var audioDropButton = driver.FindElement(_audioPageDropButton);
+            audioDropButton.Click();
+
+            var audioBrandFilter = driver.FindElement(_audioBrandFilter);
+            audioBrandFilter.Click();
+
+            Thread.Sleep(1000);
+
+            var showFilter = driver.FindElement(_showFilter);
+            showFilter.Click();
+
+            Thread.Sleep(2000);
+
+            var nameList = driver.FindElements(_nameBrandSaveList).SkipLast(4);
+            var nameText = nameList.ElementAt(0).Text;
+            
+            var saveList = driver.FindElement(_saveListButton);
+            saveList.Click();
+
+            Thread.Sleep(1000);
+
+            var acceprSaveList = driver.FindElement(_acceptSaveListButton);
+            acceprSaveList.Click();
+
+            Thread.Sleep(3000);
+
+            var userPage = driver.FindElement(_acceptLogin);
+            userPage.Click();
+
+            var showSaveList = driver.FindElement(_showSaveList);
+            showSaveList.Click();
+
+            var brandSaveList = driver.FindElements(_nameBrandSaveList);
+            var textBrandList = brandSaveList.ElementAt(0).Text;
+            // Assert.AreEqual(nameText, textBrandList, "Wrong");
+            // Assert.IsTrue(nameText.Contains(textBrandList));
+            // Assert.Contains(nameText, brandSaveList);
+        }
+
+        public void SaveInViewedProducts()
+        {
+            Actions actions = new Actions(driver);
+            
+            var gadjetPage = driver.FindElement(_gadjetItemButton);
+            actions.MoveToElement(gadjetPage).Perform();
+
+            Thread.Sleep(1000);
+
+            var gadjetButton = driver.FindElement(_gadjetDropButton);
+            gadjetButton.Click();
+
+            var selectBrandMob = driver.FindElement(_moBileBrandFilterButton);
+            selectBrandMob.Click();
+
+            Thread.Sleep(1000);
+
+            var showFilte = driver.FindElement(_showFilter);
+            showFilte.Click();
+
+            Thread.Sleep(1000);
+
+            var nameTextMobileItem = driver.FindElement(_proItemApple).Text;
+            var selectItemMob = driver.FindElement(_proItemApple);
+            selectItemMob.Click();
+
+            Thread.Sleep(1000);
+
+            var computerItems = driver.FindElement(_computerPage);
+
+            Thread.Sleep(1000);
+
+            computerItems.Click();
+            //actions.MoveToElement(computerItems).Perform();
+
+            var consolePage = driver.FindElement(_consoleDropButton);
+            consolePage.Click();
+            driver.Navigate().Refresh();
+
+            var filterBrandConsole = driver.FindElement(_filterOnConsolePage);
+            filterBrandConsole.Click();
+
+            // var showFilter = driver.FindElement(_showFilter);
+            
+
+            Thread.Sleep(3000);
+            var showFiletConsole = driver.FindElement(_showFilter);
+
+            Thread.Sleep(3000);
+
+            showFiletConsole.Click();
+
+            var nameTextConsoleItem = driver.FindElement(_nameConsoleItem).Text;
+            var selectConsoleItem = driver.FindElement(_nameConsoleItem);
+            selectConsoleItem.Click();
+
+            var audioPage = driver.FindElement(_audioPageButton);
+            audioPage.Click();
+            //actions.MoveToElement(audioPage).Perform();
+
+            var audioPageTo = driver.FindElement(_audioPageDropButton);
+            audioPageTo.Click();
+
+            var filterOnAudioPage = driver.FindElement(_audioBrandFilter);
+            filterOnAudioPage.Click();
+
+            var showFilterAudio = driver.FindElement(_showFilter);
+
+            Thread.Sleep(3000);
+
+            showFilterAudio.Click();
+
+            var nameTextAudioItem = driver.FindElement(_nameAudioItem).Text;
+
+            var audioItem = driver.FindElement(_nameAudioItem);
+            audioItem.Click();
+
+            var userProfilePage = driver.FindElement(_acceptLogin);
+            userProfilePage.Click();
+
+            var nameMobItWgLi = driver.FindElement(By.XPath("//u[@class='nobr' and text()='Apple iPhone 13 Pr...']")).Text;
+            var nameConsItWgLi = driver.FindElement(By.XPath("//u[@class='nobr' and text()='Sony PlayStation 5']")).Text;
+            var nameAudioItWgLi = driver.FindElement(By.XPath("//u[@class='nobr' and text()='Logitech G Pro X']")).Text;
+
+            Assert.IsTrue(nameTextMobileItem.Contains(nameMobItWgLi));
+            Assert.IsTrue(nameTextConsoleItem.Contains(nameConsItWgLi));
+            Assert.IsTrue(nameTextAudioItem.Contains(nameAudioItWgLi));
         }
     }
 }
