@@ -35,6 +35,7 @@ namespace Selenium_WD
 
             var lastPage = driver.FindElements(By.XPath(".//div[@class='ib page-num']//a")).Last();
             var neededElementText = Int32.Parse(lastPage.Text);
+            
             for (int i = 0; i < neededElementText; i++)
             {
                 var allPrice = driver.FindElements(By.XPath("//b[text()]//parent::a"));
@@ -44,13 +45,14 @@ namespace Selenium_WD
                     var pric = onePrice.Text.Replace(" грн.", "");
                     var price = pric.Replace(" ", "");
                     var priceInt = Convert.ToInt32(price);
+                    
                     for (int j = 0; j < priceInt; j++)
                     {
-                        _ = priceInt <= priceInt - 1;
+                        var a = priceInt >= priceInt - 1;
+                        Assert.IsTrue(a);
                     }
-                    
-                    // Assert.IsTrue(oneItem.Contains("Acer"), "Not found");
                 }
+                
                 try
                 {
                     var nextPageButton = driver.FindElement(By.XPath("//a[@id='pager_next']"));
@@ -61,8 +63,6 @@ namespace Selenium_WD
                     continue;
                 }
             }
-
-            //b[text()]//parent::a
         }
 
         [TearDown]
