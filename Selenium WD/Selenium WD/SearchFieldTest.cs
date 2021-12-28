@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Selenium_WD
 {
-    internal class SerachFieldTest
+    internal class SearchFieldTest
     {
         private IWebDriver driver;
         private UserService service;
-        private readonly By _searchItem = By.XPath("//h3[text()=' Смартфон APPLE iPhone 13 Pro 256GB Graphite (MLVE3)']");
 
+        private readonly By _searchingItem = By.XPath("//td//a[@class='model-short-title no-u']");
 
         [SetUp]
 
@@ -29,9 +29,6 @@ namespace Selenium_WD
         public void Test1()
         {
             service.Search();
-            var searchItem = driver.FindElement(_searchItem).Text;
-            Assert.AreEqual("Смартфон APPLE iPhone 13 Pro 256GB Graphite (MLVE3)", searchItem, "Search Item not found on page");
-            Assert.Pass();
         }
 
         [TearDown]
@@ -40,6 +37,5 @@ namespace Selenium_WD
             driver.Quit();
             driver.Dispose();
         }
-
     }
 }

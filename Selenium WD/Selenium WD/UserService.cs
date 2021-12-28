@@ -94,7 +94,9 @@ namespace Selenium_WD
         private readonly By _filterOnConsolePage = By.XPath("//label[@class='brand-best' and @for='br156']");
         private readonly By _nameConsoleItem = By.XPath("//span[@class='u' and text()='Sony PlayStation 5']");
         private readonly By _nameAudioItem = By.XPath("//span[@class='u' and text()='Logitech G Pro X']");
-        
+        private readonly By _searchingItems = By.XPath("//td[@class='where-buy-description']//h3[text()]");
+
+
         private const string _registrationName = "User1";
         private const string _registrationEmail = "danya.sydortsov@tech-stack.io";
         private const string _registrationPassword = "Password123";
@@ -102,10 +104,14 @@ namespace Selenium_WD
 
         //public By Computer => By.XPath("//a[@class='cancel-click mainmenu-link']");
         public By ToCompareTablet => By.XPath("//label[@id='label_2090044']");
+        
         RandomUser rndUs = new RandomUser();
+
 
         public void Create()
         {
+            var rndLg = rndUs.CreateRandomLogin();
+
             var signIn = driver.FindElement(_signInButton);
             signIn.Click();
 
@@ -114,8 +120,10 @@ namespace Selenium_WD
             var registrationButton = driver.FindElement(_registrationButton);
             registrationButton.Click();
 
+            Thread.Sleep(1000);
+
             var inputName = driver.FindElement(_nameInputButton);
-            inputName.SendKeys(rndUs.CreateRandomLogin());
+            inputName.SendKeys(rndLg);
 
             var emailInput = driver.FindElement(_emailInputButton);
             emailInput.SendKeys(rndUs.CreateRandomEmail());
@@ -130,21 +138,43 @@ namespace Selenium_WD
 
             var acceptButton = driver.FindElement(_acceptButton);
             acceptButton.Click();
+
+            var actualLogin = driver.FindElement(_acceptLogin).Text;
+
+            Assert.AreEqual(actualLogin, rndLg, "Wrong!");
         }
 
         public void Search()
         {
             var searchInput = driver.FindElement(_searchInputButton);
             searchInput.SendKeys(_searchingItem);
+            
             var searchButton = driver.FindElement(_searchItemButton);
             searchButton.Click();
+
+            Thread.Sleep(2000);
+
+            var searchingItems = driver.FindElements(_searchingItems)/*Select(element => element.Text).ToList()*/;
+
+            foreach (var searchingItem in searchingItems)
+            {
+                var a = searchingItem.Text;
+
+                Assert.IsTrue(a.Contains(_searchingItem));
+            }
+
+            // var textItems = searchingItems.ElementAt(0).Text;
+
+            // Assert.IsTrue(_searchingItem.Contains(searchingItems), "Wrong!");
         }
 
         public void EnterComputer()
         {
             Actions action = new Actions(driver);
+            
             var enterComputer = driver.FindElement(_computerPage);
             action.MoveToElement(enterComputer).Perform();
+            
             Thread.Sleep(3000);
 
             var dropComputer = driver.FindElement(_dropComputer);
@@ -152,6 +182,7 @@ namespace Selenium_WD
 
             var filterBrands = driver.FindElement(_brandLaptop);
             filterBrands.Click();
+            
             Thread.Sleep(2000);
 
             var showFilter = driver.FindElement(_showFilter);
@@ -161,14 +192,20 @@ namespace Selenium_WD
         public void AddTablet()
         {
             Actions action = new Actions(driver);
+            
             var computerDrop = driver.FindElement(_computerDropButton);
             action.MoveToElement(computerDrop).Perform();
+            
             Thread.Sleep(2000);
+            
             var tabletPage = driver.FindElement(_tabletPage);
             tabletPage.Click();
+            
             var tabletBrand = driver.FindElement(_tabletBrand);
             tabletBrand.Click();
+            
             Thread.Sleep(1000);
+            
             var showFilterTabler = driver.FindElement(_showFilter);
             showFilterTabler.Click();
         }
@@ -229,8 +266,6 @@ namespace Selenium_WD
             var getFirstTablet = driver.FindElement(_firstExpectedItem).Text;
             var getSecondTablet = driver.FindElement(_secondExpectedItem).Text;
 
-            // Assert.AreEqual(getFirstTablet, oneTabler, "Wrong!");
-            // Assert.AreEqual(getSecondTablet, twoTablet, "Wrong 2!");
             Assert.IsTrue(getFirstTablet.Contains(oneTabler), "Wronh!!");
             Assert.IsTrue(getSecondTablet.Contains(twoTablet), "Wronh2!!");
         }
@@ -274,10 +309,7 @@ namespace Selenium_WD
 
             var pageWithItem = driver.FindElement(_pageVodaItem).Text;
 
-            // var nameTitle = driver.Title;
-
             Assert.AreEqual(textItem, pageWithItem, "Wrong!!");
-            // Assert.IsTrue(nameTitle(nameMagaz), "Wrong title");
         }
 
         public void PriceFilter()
@@ -362,13 +394,16 @@ namespace Selenium_WD
             Thread.Sleep(2000);
 
             var textItemInBookmarks = driver.FindElement(By.XPath("//div[@class='side-list-label ' and text()='Apple iPhone 13 128GB']")).Text;
+            var nameItemInBooksmarks = textItemInBookmarks.Replace("GB", "");
 
-            Assert.IsTrue(nameTitleItem.Contains(textItemInBookmarks), "Wrong");
+            Assert.IsTrue(nameTitleItem.Contains(nameItemInBooksmarks), "Wrong");
         }
 
         public void RenameUser()
         {
             Actions actions = new Actions(driver);
+
+            var rndLog = rndUs.CreateRandomLogin();
 
             var loginMenu = driver.FindElement(_acceptLogin);
             loginMenu.Click();
@@ -377,8 +412,13 @@ namespace Selenium_WD
             editProfileButton.Click();
 
             var userField = driver.FindElement(_nikUserField);
-            actions.DoubleClick(userField);
-            userField.SendKeys(rndUs.CreateRandomLogin());
+            userField.Clear();
+            
+            Thread.Sleep(1000);
+            
+            userField.SendKeys(rndLog);
+
+            Thread.Sleep(2000);
 
             var saveChange = driver.FindElement(_saveChangeUserMenu);
             saveChange.Click();
@@ -388,15 +428,15 @@ namespace Selenium_WD
 
             Thread.Sleep(4000);
 
-            // _ = loginMenu.Text;
+            var renameLoginActual = driver.FindElement(_acceptLogin).Text;
 
-            Assert.AreEqual(loginMenu.Text, rndUs.CreateRandomLogin());
+            // var verActLog = rndLog;
+
+            Assert.AreEqual(renameLoginActual, rndLog, "Wrong!");
         }
 
         public void ItemList()
         {
-            //span[@class='u' and text()]
-            //span[@class='u' and text()]
             Actions actions = new Actions(driver);
 
             var audioPage = driver.FindElement(_audioPageButton);
@@ -417,8 +457,8 @@ namespace Selenium_WD
 
             Thread.Sleep(2000);
 
-            var nameList = driver.FindElements(_nameBrandSaveList).SkipLast(4);
-            var nameText = nameList.ElementAt(0).Text;
+            var nameList = driver.FindElements(_nameBrandSaveList).SkipLast(4).Select(element => element.Text).ToList();
+            nameList.Sort();
             
             var saveList = driver.FindElement(_saveListButton);
             saveList.Click();
@@ -436,11 +476,10 @@ namespace Selenium_WD
             var showSaveList = driver.FindElement(_showSaveList);
             showSaveList.Click();
 
-            var brandSaveList = driver.FindElements(_nameBrandSaveList);
-            var textBrandList = brandSaveList.ElementAt(0).Text;
-            // Assert.AreEqual(nameText, textBrandList, "Wrong");
-            // Assert.IsTrue(nameText.Contains(textBrandList));
-            // Assert.Contains(nameText, brandSaveList);
+            var brandSaveList = driver.FindElements(_nameBrandSaveList).Select(element => element.Text).ToList();
+            brandSaveList.Sort();
+
+            Assert.AreEqual(nameList, brandSaveList, "Wrong");
         }
 
         public void SaveInViewedProducts()
@@ -476,7 +515,6 @@ namespace Selenium_WD
             Thread.Sleep(1000);
 
             computerItems.Click();
-            //actions.MoveToElement(computerItems).Perform();
 
             var consolePage = driver.FindElement(_consoleDropButton);
             consolePage.Click();
@@ -485,10 +523,8 @@ namespace Selenium_WD
             var filterBrandConsole = driver.FindElement(_filterOnConsolePage);
             filterBrandConsole.Click();
 
-            // var showFilter = driver.FindElement(_showFilter);
-            
-
             Thread.Sleep(3000);
+            
             var showFiletConsole = driver.FindElement(_showFilter);
 
             Thread.Sleep(3000);
@@ -501,12 +537,16 @@ namespace Selenium_WD
 
             var audioPage = driver.FindElement(_audioPageButton);
             audioPage.Click();
-            //actions.MoveToElement(audioPage).Perform();
 
             var audioPageTo = driver.FindElement(_audioPageDropButton);
             audioPageTo.Click();
 
+            driver.Navigate().Refresh();
+
             var filterOnAudioPage = driver.FindElement(_audioBrandFilter);
+
+            Thread.Sleep(3000);
+
             filterOnAudioPage.Click();
 
             var showFilterAudio = driver.FindElement(_showFilter);
@@ -514,6 +554,8 @@ namespace Selenium_WD
             Thread.Sleep(3000);
 
             showFilterAudio.Click();
+
+            Thread.Sleep(1000);
 
             var nameTextAudioItem = driver.FindElement(_nameAudioItem).Text;
 
@@ -523,7 +565,7 @@ namespace Selenium_WD
             var userProfilePage = driver.FindElement(_acceptLogin);
             userProfilePage.Click();
 
-            var nameMobItWgLi = driver.FindElement(By.XPath("//u[@class='nobr' and text()='Apple iPhone 13 Pr...']")).Text;
+            var nameMobItWgLi = driver.FindElement(By.XPath("//u[@class='nobr' and text()='Apple iPhone 13 Pr...']")).Text.ElementAt(15);
             var nameConsItWgLi = driver.FindElement(By.XPath("//u[@class='nobr' and text()='Sony PlayStation 5']")).Text;
             var nameAudioItWgLi = driver.FindElement(By.XPath("//u[@class='nobr' and text()='Logitech G Pro X']")).Text;
 

@@ -11,9 +11,11 @@ namespace Selenium_WD
         public static void Main(string[] args)
         {
             RandomUser rndUser = new RandomUser();
-            rndUser.CreateRandomLogin();
+            // var a = rndUser.CreateRandomLogin();
             rndUser.CreateRandomPassword();
             rndUser.CreateRandomEmail();
+            // var a = rndUser.EndUser;
+            // var a = rndUser.EndUser;
         }
     }
 }

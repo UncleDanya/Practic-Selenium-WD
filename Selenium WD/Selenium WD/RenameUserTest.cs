@@ -14,7 +14,6 @@ namespace Selenium_WD
         private UserService service;
         private readonly By _acceptLogin = By.XPath("//a[@class='info-nick']");
 
-
         [SetUp]
 
         public void Setup()

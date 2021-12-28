@@ -33,16 +33,21 @@ namespace Selenium_WD
         public void Test1()
         {
             service.EnterComputer();
+            
             var lastPage = driver.FindElements(By.XPath(".//div[@class='ib page-num']//a")).Last();
             var neededElementText = Int32.Parse(lastPage.Text);
+            
             for (int i = 0; i < neededElementText; i++)
             {
                 var allacer = driver.FindElements(By.XPath("//a/span[text()[contains(.,'Acer')]]"));
+                
                 foreach (var oneItemAcer in allacer)
                 {
                     var oneItem = oneItemAcer.Text;
+                    
                     Assert.IsTrue(oneItem.Contains("Acer"), "Not found");
                 }
+                
                 try
                 {
                     var nextPageButton = driver.FindElement(By.XPath("//a[@id='pager_next']"));
